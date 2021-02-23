@@ -1,0 +1,8 @@
+调用语句：
+UpperBound=; 1×k的向量（k为变量数）
+LowerBound=; 1×k的向量
+lu=[LowerBound;UpperBound];
+[X,y]=JADE(k,lu,iteration); (iteration一般在1000~10000之间取值)
+
+注意：
+调用前将JADE.m文件中的两处 objective_function_name 改为自己程序中实际的目标函数名称

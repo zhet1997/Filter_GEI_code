@@ -1,0 +1,98 @@
+%2019-8-20
+%这个函数必须进行override
+%用F表示低精度的样本值
+%由alpha来储存beta0的值
+%这样其余部分的修改就会比较少。
+%>	[this err dsigma2] = updateRegression( this, F, hp )
+%
+% ======================================================================
+%> Updates regression part of the model
+% ======================================================================
+function [this, err, dsigma2] = updateRegression( this, F, hp )%这里的F是指什么？？？
+
+	err = [];
+       
+    %> @todo Rho is only used by co-kriging, can we abstract this somehow ?
+    % if using co-kriging calculate values{1} - rho*values{2}
+    if this.optimIdx(1,this.RHO) && size(this.values,2) > 1  %后一项大于一就说明是cokriging
+        assert( ~isinf( hp{:,this.RHO} ) );%断言函数，用来确保某个条件成立，函数再继续运行
+        
+        values2 = this.values(:,2);
+        
+        this.rho = hp{:,this.RHO};
+        this.values = this.values(:,1) - this.rho.*this.values(:,2);
+    end
+	
+    %% Get least squares solution
+
+    % decorrelation transformation:
+    % Yt - Ft*coeff = inv(C)Y - inv(C)F*coeff
+    % so Ft = inv(C)F <=> C Ft = F -> solve for Ft
+
+	% Forward substitution
+	Ft = this.C \ F(this.P,:); % T1  %这里c是一个下三角矩阵
+                                     %c很像是R的下三角，但又有所不同。
+                                     %Ft=inv(C)*F
+                                     %C是相关矩阵的乔科斯基分解
+                                     
+    %F是用来储存回归参数的系数，在universal kriging中会用到。
+    % Bayesian Linear regression:
+    %tmp = inv(this.F'*this.F + A)*(this.F'*this.F * betaPrior + A*betaPriorMean
+
+    % Ft can now be ill-conditioned -> QR factorisation of Ft = QR
+    [Q, R] = qr(Ft,0);    %QR分解
+    if  rcond(R) < 1e-10  %检验R的条件数
+		% Check F
+		err = 'F/Ft is ill-conditioned.';
+		return;
+    end
+
+    % Now we know Ft is good, compute Yt
+    % so Yt = inv(C)Y <=> C Yt = Y -> solve for Yt
+    Yt = this.C \ this.values(this.P,:);
+	
+    % transformation is done, now fit it:
+    % Q is unitary = orthogonal for real values -> inv(Q) = Q'
+    %alpha = R \ (Q'*Yt); % polynomial coefficients%这个alpha就是需要的回归项miu或是bets
+    alpha = (Ft'*Yt)/(Ft'*Ft);%这个就是实际上的Beta0的值
+    
+	% residual2 = values(this.P,:) - this.F * alpha % simple
+    % residual2 = C * residual; % take correlation into account for real variance
+    % sigma2 = (residual' * T2) ./ n; % simple
+    residual = Yt - Ft*alpha;  %这一项暂时不明白
+
+    if this.optimIdx( 1, this.SIGMA2 )
+        % take process variance from hyperparameters (stochastic kriging)
+        this.sigma2 = 10.^hp{:,this.SIGMA2};
+    else
+        % compute process variance analytically    
+        this.sigma2 = sum(residual.^2) ./ size(this.values, 1);
+        
+        % Reinterpolation of the prediction variance (Forrester2006)
+        if this.options.reinterpolation
+            tmp = (this.C*this.C') - this.Sigma;
+            this.sigma2_reinterp = (residual' * tmp * residual) ./ size(this.values,1);
+        end
+    end
+    
+    % needed for derivatives for coKriging
+    if nargout > 2 && this.optimIdx(1,this.RHO)%判断是否要算梯度
+        dYt = this.C \ -values2;
+        dalpha = R \ (Q'*dYt);
+        dresidual = dYt - Ft*dalpha;
+        
+        %this.sigma2 = sum(residual.^2) ./ size(this.values, 1);
+        dsigma2 = sum(2.*residual.*dresidual) ./ size(this.values, 1);
+    else
+        dsigma2 = [];
+    end
+    
+    %% keep
+    %这个函数一共更新了四个值
+	this.alpha = alpha;
+	
+	% inv(C11') * inv(C) * values or (inv(C)*residual)
+	this.gamma = this.C(1:this.rank,1:this.rank)' \ residual;
+	
+	this.Ft = Ft;
+	this.R = R;

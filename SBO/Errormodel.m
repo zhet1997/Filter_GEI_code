@@ -1,10 +1,8 @@
-%2019-3-14
-%此函数的作用是描述低精度与高精度函数之间的误差项
 function [y] = Errormodel(a,i)
 
 switch i
-    case 1%设计空间超平面
-        alpha = [10,10,1,1,1,1];%系数向量
+    case 1
+        alpha = [10,10,1,1,1,1];
         beta = -10 ;
         n = length(a);
         y = 0;
@@ -13,14 +11,13 @@ switch i
         end
         y = y + beta;
        y =Testmodel(a,'branin') + y;
-      % y=10;
        
-        case 2%设计空间超平面
+        case 2
        
         y = Testmodel(a,'hartmann_3D')+Testmodel(a,'MA3')*7.6;
         
         case 3  %forrester1a
-        alpha = [10,1,1,1,1,1];%系数向量
+        alpha = [10,1,1,1,1,1];
         beta = -10;
         n = length(a);
         y = 0;
@@ -28,11 +25,9 @@ switch i
             y = y + alpha(i)*a(i);
         end
         y = y + beta;
-        %===================================
+
        y = y +0.5* Testmodel(a,'forrester');
-%        x1=(a-0.5)*2;
-%        y=sin(x1*(3*pi)-0.5*pi)-2;
-%        y=y.*(x1.^2+1)*0.5+2.2;
+
     case 4  %forrester 1b
        
         y = Testmodel(a,'forrester')-5;

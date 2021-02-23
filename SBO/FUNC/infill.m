@@ -1,4 +1,3 @@
-%2019-8-29
 function [x_l,x_h] = infill(opt,option)
 
 switch option.infill
@@ -30,9 +29,6 @@ switch option.infill
         [x,y]=opt.find_GEI(10);
         x0=x;
         x1=[];
-        %         mm_ini = mean(opt.Sample.values_h(1:opt.Sample.initial_num_h));%初始加点平均数
-        %         mm = sum(opt.Sample.values_h(opt.Sample.initial_num_h+1:end))+mm_ini;
-        %         mm = mm/(opt.Sample.number_h-opt.Sample.initial_num_h+1);
         idx1 = cumsum(opt.add_record,1);
         idx2 = [0;idx1(1:end-1,2)]+1;
         idx2 = [idx2,idx1(:,2)];
@@ -47,12 +43,12 @@ switch option.infill
         
         for i=1:size(y,1)
             if y(i) <= opt.y_min*ww + mm*(1-ww)
-                x1=[x1;x(i,:)];%筛选出，未聚类
+                x1=[x1;x(i,:)];
             end
         end
         
         if size(x1,1)>1
-            x2=opt.cluster2(x1,option.cluster_h*sqrt(opt.Sample.dimension));%聚类完毕
+            x2=opt.cluster2(x1,option.cluster_h*sqrt(opt.Sample.dimension));
         else
             x2=x1;
         end
@@ -76,7 +72,7 @@ switch option.infill
         elseif  strcmp(option.model,'Kriging')==1
            x_l = [];
         else
-            error('输入的方法不在可选范围内');
+            error('illeagle input');
         end
     case 'GEI'
         [x] = opt.select_GEI('high');
@@ -86,7 +82,7 @@ switch option.infill
         elseif  strcmp(option.model,'Kriging')==1
            x_l = [];
         else
-            error('输入的方法不在可选范围内');
+            error('illeagle input');
         end
         
 end

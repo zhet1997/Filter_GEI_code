@@ -1,4 +1,4 @@
-function [xx,yy]=find_GEI(obj,gmax)%把选点过程与聚类过程分开
+function [xx,yy]=find_GEI(obj,gmax)
 x=zeros(gmax+1,obj.Sample.dimension);
 y0=zeros(gmax+1,1);
 gei = cell(gmax+1,1);
@@ -22,7 +22,7 @@ if obj.Sample.dimension==1
  c(s,:)=[];
 end
 
-obj.EI_max=-min(b);%把九个EI中值最大的一个储存起来
+obj.EI_max=-min(b);
 xx = a;
 yy = c;
 end

@@ -1,10 +1,8 @@
 function  wdat(matrix,file,type)
-%WDAT 此处显示有关此函数的摘要
-%   此处显示详细说明
 if nargin==2
 type = 'wt';
 end
-fid=fopen(file,type);%写入文件路径
+fid=fopen(file,type);
 [m,n]=size(matrix);
 if isa(matrix,'cell')==1
     for i=1:1:m

@@ -1,4 +1,3 @@
-%2019-9-21
 function index(filename)
 
 xlsPath = '.\Demo\';

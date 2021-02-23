@@ -1,6 +1,3 @@
-%2019-7-30
-%分层Kriging
-% ======================================================================
 classdef HierarchicalKriging < BasicGaussianProcess
 
 	properties (Access = public)%把private改为了protected
@@ -15,7 +12,7 @@ classdef HierarchicalKriging < BasicGaussianProcess
         
         allSamples = [];
         allValues = [];
-        beta %新增加的对象
+        beta
 	end
 
 	% PUBLIC

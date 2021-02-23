@@ -1,5 +1,5 @@
-%2018-12-20
-%这个函数的作用是储存与选择不同的测试函数
+%choose of test functions
+
 %1forrester
 %2branin   y_min=0.397887 at(-pi,12.275);(pi,2.275);(9.42478,2.475)
 %3hartmann_3D  y_min=-3.86278 at(0.114614,0.555649,0.852547)
@@ -18,9 +18,9 @@ if size(a,1)>=2
 else
 
 
-switch i %确定各个函数的可行域
+switch i %the actual feasible region of test functions
     case {'forrester','forrester1a','forrester1b','forrester1c','forrester1d'}
-        g=[0,1];%记得改回来;
+        g=[0,1];
     case 'branin'
         g=[-5 10;0 15];
     case 'hartmann_3D'
@@ -47,14 +47,11 @@ switch i %确定各个函数的可行域
         g = [-10,5.12;-5.12,7];
 end
 
-
-%将归一化的样本放大到原数值范围
 [m,~]=size(g);
 for k=1:m
     a(k)=g(k,1)+ a(k)*(g(k,2)-g(k,1));
 end
 
-%将放大后的数值代入方程
 switch i
     case 'forrester'   %forrester
         
@@ -69,7 +66,7 @@ switch i
             
         else
             
-            disp('输入的向量应为1阶');
+            disp('the input vector should be 1 order');
             y=0;
         end
         
@@ -92,7 +89,7 @@ switch i
             y = term1 + term2 + s ;
             
         else
-            disp('输入的向量应为2阶');
+            disp('the input vector should be 2 order');
             y=0;
         end
     case 'hartmann_3D' %hartmann-3D
@@ -124,7 +121,7 @@ switch i
             y = -outer;
         else
             
-            disp('输入的向量应为3阶');
+            disp('the input vector should be 3 order');
             y=0;
         end
         
@@ -147,7 +144,7 @@ switch i
             y = term1 + term2 + term3 + term4 + term5 + term6;
         else
             
-            disp('输入的向量应为4阶');
+            disp('the input vector should be 4 order');
             y=0;
         end
     case 'shekel' %shekel
@@ -180,7 +177,7 @@ switch i
             
         else
             
-            disp('输入的向量应为4阶');
+            disp('the input vector should be 4 order');
             y=0;
         end
         
@@ -204,7 +201,7 @@ switch i
             
         else
             
-            disp('输入的向量应为2阶');
+            disp('the input vector should be 2 order');
             y=0;
         end
     case 'hartmann_4D' %hartmann-4D
@@ -239,7 +236,7 @@ switch i
             
         else
             
-            disp('输入的向量应为4阶');
+            disp('the input vector should be 4 order');
             y=0;
         end
         
@@ -274,7 +271,7 @@ switch i
             
         else
             
-            disp('输入的向量应为6阶');
+            disp('the input vector should be 6 order');
             y=0;
         end
     case 'MA3'
@@ -290,7 +287,7 @@ switch i
             
         else
             
-            disp('输入的向量应为3阶');
+            disp('the input vector should be 3 order');
             y=0;
         end
     case 'MA5'
@@ -309,7 +306,7 @@ switch i
             
         else
             
-            disp('输入的向量应为5阶');
+            disp('the input vector should be 5 order');
             y=0;
         end
         
@@ -333,10 +330,10 @@ switch i
                 0,0,1,0,0,0;...
                 0,0,0,1,0,0;...
                 0,0,0,0,1,0;...
-                0,0,0,0,0,1;...%一阶主项
+                0,0,0,0,0,1;...%一order主项
                 2,0,0,0,0,0;...
                 0,2,0,0,0,0;...
-                0,0,0,0,2,0;...%二阶主项
+                0,0,0,0,2,0;...%二order主项
                 1,1,0,0,0,0;...
                 0,1,1,0,0,0;...
                 0,0,1,0,0,1;...
@@ -346,7 +343,7 @@ switch i
             
         else
             
-            disp('输入的向量应为5阶');
+            disp('the input vector should be 5 order');
             y=0;
         end
         
@@ -376,7 +373,7 @@ switch i
             
         else
             
-            disp('输入的向量应为5阶');
+            disp('the input vector should be 5 order');
             y=0;
         end
         
@@ -387,7 +384,7 @@ switch i
             %由于在Errormodel_dynamic中还要加上，所以这里计算的是差值。
         else
             
-            disp('输入的向量应为1阶');
+            disp('the input vector should be 1 order');
             y=0;
         end
     case 'forrester1b'
@@ -395,7 +392,7 @@ switch i
             y = -5;
         else
             
-            disp('输入的向量应为1阶');
+            disp('the input vector should be 1 order');
             y=0;
         end
     case 'forrester1c'
@@ -404,7 +401,7 @@ switch i
             y =Testmodel(a-0.2,'forrester')-Testmodel(a,'forrester');
         else
             
-            disp('输入的向量应为1阶');
+            disp('the input vector should be 1 order');
             y=0;
         end
         
@@ -415,7 +412,7 @@ switch i
             %系数范围是0.5到1.5？
         else
             
-            disp('输入的向量应为1阶');
+            disp('the input vector should be 1 order');
             y=0;
         end
         

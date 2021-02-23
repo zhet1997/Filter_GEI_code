@@ -111,8 +111,8 @@ classdef Iteration<handle
         %²ÎÊý¼ÆËã
         function get_y_min(obj)
             
-%             [obj.y_min_co,obj.y_min_res] = ga(@obj.res_surf,obj.Sample.dimension,[],[],[],[],obj.border(:,1),obj.border(:,2));
-%             obj.y_min  = min(obj.Sample.values_h);
+            [obj.y_min_co,obj.y_min_res] = ga(@obj.res_surf,obj.Sample.dimension,[],[],[],[],obj.border(:,1),obj.border(:,2));
+             obj.y_min  = min(obj.Sample.values_h);
 %             obj.y_min_low = min(obj.Sample.values_l);
         end
         

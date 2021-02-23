@@ -21,7 +21,7 @@ mod = GPfamily( sam.points, sam.values , option.model);
 opt = Iteration(sam,mod);
 %=========================================================
 %% 开始迭代过程
-for iteration=1:option.itermax*2%修改
+for iteration=1:option.itermax%修改
     %fprintf("这是第%d次迭代\n",iteration);
     [x_l,x_h]=infill(opt,option);%选择加点位置
     opt.Update(x_l,x_h); %更新模型

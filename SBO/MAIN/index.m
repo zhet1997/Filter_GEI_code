@@ -1,10 +1,13 @@
 %2019-9-21
-clc;clear;
-path = 'E:\dataset_20190829\option_bag\';
-[~,~,table] = xlsread([path,'index.xlsx'],7);
+function index(filename)
+
+xlsPath = '.\Demo\';
+[~,~,table] = xlsread([xlsPath,filename],1);
 table = table(2:end,:);
 
 for ii = 1:size(table,1)
 put = table(ii,:);
-index_in(put);
+index_in(put,xlsPath);
+end
+
 end

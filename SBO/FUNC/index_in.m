@@ -14,27 +14,27 @@
 %2.优化算法选取
 %3.算法参数给定
 %4.优化过程与结果储存
-function index_in(put)
+function index_in(inPut,outPutPath)
 option = struct();
 %对参数进行设置
-option.path = 'E:\dataset_20200528\';
+option.path = [outPutPath,'result\'];
 %====================================
 option.date = datestr(datetime('today')+2,'yyyy-mm-dd');
 %====================================
-option.func.hi_fi = put{1};
-option.func.low_fi = put{2};
-option.func.errpara = put{3};
+option.func.hi_fi = inPut{1};
+option.func.low_fi = inPut{2};
+option.func.errpara = inPut{3};
 %====================================
-option.initial.num = [put{4},put{5}];
-option.model = put{6};
+option.initial.num = [inPut{4},inPut{5}];
+option.model = inPut{6};
 %'Filter_GEI'=='EI'== 'augmented_EI'=='VF-EI'=='GEI';
-option.infill = put{7};
-option.stop = put{8};
-option.max = put{9};
+option.infill = inPut{7};
+option.stop = inPut{8};
+option.max = inPut{9};
 %====================================
-option.itermax = put{10};
-option.cluster_h = put{11};
-option.cluster_l = put{12};
+option.itermax = inPut{10};
+option.cluster_h = inPut{11};
+option.cluster_l = inPut{12};
 option.testtime = 1;
 
 if strcmp(option.model,'CoKriging')==1||strcmp(option.model,'HierarchicalKriging')==1
@@ -45,5 +45,5 @@ else
 error('输入的方法不在可选范围内');
 end
 
-save(['E:\dataset_20190829\option_bag8\',file_name],'option');
+save([outPutPath,file_name],'option');
 disp('alredy save');

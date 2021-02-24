@@ -4,7 +4,7 @@ disp('option files are already saved.')
 
 optionList = dir(fullfile('.\Demo\','*.mat')) ;
 
-for ii = 1:length(optionList)
+for ii = 4:5
 load(['.\Demo\',optionList(ii).name]);
 EGO(option)
 end

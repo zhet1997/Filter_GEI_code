@@ -5,7 +5,7 @@ gei = cell(gmax+1,1);
 fgei = cell(gmax+1,1);
 for ii=1:gmax+1
     gg=ii-1;
-    gei{ii,1}= @(x)obj.GEI(x,gg);
+    gei{ii,1}= @(x)obj.cal_GEI(x,gg);
     fgei{ii,1} = @()ga(gei{ii,1},obj.Sample.dimension,[],[],[],[],obj.border(:,1),obj.border(:,2));
 end
 clear('gg');

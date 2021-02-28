@@ -1,4 +1,4 @@
-function yy=GEI(obj,x,gg)
+function yy=cal_GEI(obj,x,gg)
 [y,mse2] = obj.Model.predict(x);
 s=sqrt(abs(mse2));
 if mse2<=1e-10

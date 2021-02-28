@@ -117,7 +117,7 @@ classdef Iteration<handle
         %==================================================================================================
         %adaptive sampling method
         %VF-EI
-        function [yy] = VF_EI(obj,x)
+        function [yy] = cal_VF_EI(obj,x)
             [~,mse2_l] = obj.Model.GP{1}.predict(x);
             [y,mse2_h] = obj.Model.predict(x);
 
@@ -144,7 +144,7 @@ classdef Iteration<handle
         
         function [xx,yy,zz,ss,l]=select_VF_EI(obj)
 
-            [xx,zz] = ga(@obj.VF_EI,obj.Sample.dimension,[],[],[],[],obj.border(:,1),obj.border(:,2));
+            [xx,zz] = ga(@obj.cal_VF_EI,obj.Sample.dimension,[],[],[],[],obj.border(:,1),obj.border(:,2));
             obj.EI_max = -zz;
             zz = -zz;
             l = obj.VF_l;
@@ -263,7 +263,7 @@ classdef Iteration<handle
             end
         end
         
-        [y] = GEI(obj,x,gg);
+        [y] = cal_GEI(obj,x,gg);
         [xx,yy]=find_GEI(obj,gmax);
 
         function [xx,yy]=select_GEI(obj,choice)
